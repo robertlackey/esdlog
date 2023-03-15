@@ -1,0 +1,11 @@
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-right: 2rem;
+}
+.navbar-nav {
+    margin-left: auto;
+}
+.nav-link {
+    font-size: 1.5rem;
+}
