@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+  <title>Previous Two Weeks</title>
 {% endblock %}
 
 {% block body %}
-  <h1>Previous Two Weeks</h1>
-  {% for start_date, end_date in week_dates %}
-  <h2>{{ start_date.strftime('%m/%d/%Y') }} - {{ end_date.strftime('%m/%d/%Y') }}</h2>
-  <div class="table-responsive">
-      <table class="table table-striped">
-          <thead>
-              <tr>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Previous Two Weeks</h1>
+    {% for start_date, end_date in week_dates %}
+      <div class="card mb-4">
+        <div class="card-header"><p>{{ start_date.strftime('%m/%d/%Y') }} - {{ end_date.strftime('%m/%d/%Y') }}</p></div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
                   <th>Type</th>
                   <th>Company</th>
                   <th>Position</th>
@@ -19,25 +23,28 @@
                   <th>Contact Info</th>
                   <th>Date</th>
                   <th>Notes</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for item in data %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in data %}
                   {% if start_date <= item.date <= end_date %}
-                      <tr>
-                          <td>{{ item.type }}</td>
-                          <td>{{ item.company }}</td>
-                          <td>{{ item.position }}</td>
-                          <td>{{ item.method }}</td>
-                          <td>{{ item.contact_info }}</td>
-                          <td>{{ item.date.strftime('%m/%d/%Y') }}</td>
-                          <td>{{ item.notes }}</td>
-                      </tr>
+                    <tr>
+                      <td>{{ item.type }}</td>
+                      <td>{{ item.company }}</td>
+                      <td>{{ item.position }}</td>
+                      <td>{{ item.method }}</td>
+                      <td>{{ item.contact_info }}</td>
+                      <td>{{ item.date.strftime('%m/%d/%Y') }}</td>
+                      <td>{{ item.notes }}</td>
+                    </tr>
                   {% endif %}
-              {% endfor %}
-          </tbody>
-      </table>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-{% endfor %}
-
+</body>
 {% endblock %}
