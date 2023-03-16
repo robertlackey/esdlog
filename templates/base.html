@@ -26,6 +26,7 @@
                       Log Items
                     </a>
                     <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ url_for('routes.list')|escape }}">List all</a>
                         <a class="dropdown-item" href="{{ url_for('routes.show_items_last_two_weeks_sunday')|escape }}">Last 2 Weeks of Logs</a>
                     </div>
                 </li>

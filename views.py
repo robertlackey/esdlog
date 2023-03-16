@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import db, ESDForm
 from forms import SubmitForm
 from datetime import datetime, date, timedelta
@@ -65,4 +65,46 @@ def show_items_last_two_weeks_sunday():
 
     return render_template('items_by_week.html', data=data, week_dates=week_dates)
 
+@bp.route('/list')
+def list():
+    forms = ESDForm.query.order_by(ESDForm.id.desc()).all()
+    return render_template('list.html', forms=forms)
+
+@bp.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit(id):
+    form = SubmitForm()
+
+    items = ESDForm.query.get_or_404(id)
+
+    form.type.default = items.type
+    form.company.default = items.company
+    form.position.default = items.position
+    form.method.default = items.method
+    form.contact_info.default = items.contact_info
+    form.date.default = items.date
+    form.notes.default = items.notes
+
+    form.process()
+
+    if request.method == 'POST':
+        items.type = request.form['type']
+        items.company = request.form['company']
+        items.position = request.form['position']
+        items.method = request.form['method']
+        items.contact_info = request.form['contact_info']
+        items.date = request.form['date']
+        items.notes = request.form['notes']
+        db.session.commit()
+        flash('Your changes have been saved.', 'success')
+        return redirect(url_for('routes.index'))
+
+    return render_template('edit.html', form=form, items=items)
+
+@bp.route('/delete/<int:id>', methods=['POST'])
+def delete(id):
+    form = ESDForm.query.get_or_404(id)
+    db.session.delete(form)
+    db.session.commit()
+    flash('Form has been deleted.')
+    return redirect(url_for('routes.list'))
 

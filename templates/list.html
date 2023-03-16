@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+.table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+  .table td {
+    word-wrap: break-word;
+  }
+  
+  .table th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  </style>
+{% endblock %}
+{% block body %}
+  <div class="container">
+    <h1 class="mb-4">List of Forms</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Company</th>
+          <th>Position</th>
+          <th>Method</th>
+          <th>Contact Info</th>
+          <th>Date</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in forms %}
+          <tr>
+            <td>{{ form.type }}</td>
+            <td>{{ form.company }}</td>
+            <td>{{ form.position }}</td>
+            <td>{{ form.method }}</td>
+            <td>{{ form.contact_info }}</td>
+            <td>{{ form.date }}</td>
+            <td>{{ form.notes }}</td>
+            <td>
+              <a href="{{ url_for('routes.edit', id=form.id) }}" class="btn btn-primary btn-sm">Edit</a>
+              <form method="post" action="{{ url_for('routes.delete', id=form.id) }}" style="display: inline-block;">
+                {{ form.csrf_token }}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('routes.form') }}" class="btn btn-primary">New Form</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>ESD Form</title>
+{% endblock %}
+
+{% block body %}
+
+<body>
+    <div class="container">
+        <h1>ESD Form</h1>
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form method="POST" action="{{ url_for('routes.edit', id=items.id) }}">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend>Date Information</legend>
+                        <div class="form-group">
+                            <label for="{{ form.date.id }}">{{ form.date.label.text }}</label>
+                            {{ form.date(class="form-control") }}
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Company Information</legend>
+                        <div class="form-group">
+                            <label for="{{ form.type.id }}">{{ form.type.label.text }}</label>
+                            {{ form.type(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.company.id }}">{{ form.company.label.text }}</label>
+                            {{ form.company(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.position.id }}">{{ form.position.label.text }}</label>
+                            {{ form.position(class="form-control") }}
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-md-6">
+                    <fieldset>
+                        <legend>Contact Information</legend>
+                        <div class="form-group">
+                            <label for="{{ form.method.id }}">{{ form.method.label.text }}</label>
+                            {{ form.method(class="form-control") }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.contact_info.id }}">{{ form.contact_info.label.text }}</label>
+                            {{ form.contact_info(class="form-control") }}
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Notes</legend>
+                        <div class="form-group">
+                            <label for="{{ form.notes.id }}">{{ form.notes.label.text }}</label>
+                            {{ form.notes(class="form-control", rows="5") }}
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+{% endblock %}
