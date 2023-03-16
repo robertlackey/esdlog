@@ -47,20 +47,22 @@ def submit():
 
 @bp.route('/items/two-weeks-sunday')
 def show_items_last_two_weeks_sunday():
-    # Calculate start and end dates for the previous 2 weeks
+    # Calculate start and end dates for the previous 2 weeks (Sunday to Saturday)
     today = datetime.today().date()
-    last_sunday = today - timedelta(days=today.weekday() + 1)
-    two_weeks_ago = last_sunday - timedelta(days=7, weeks=1)
+    last_saturday = today - timedelta(days=today.weekday() + 2)
+    two_weeks_ago = last_saturday - timedelta(days=13)
     start_date = two_weeks_ago
 
     # Get ESDForm objects within the 2-week period
-    data = ESDForm.query.filter(ESDForm.date.between(two_weeks_ago, last_sunday)).order_by(ESDForm.date.asc()).all()
+    data = ESDForm.query.filter(ESDForm.date.between(two_weeks_ago, last_saturday)).order_by(ESDForm.date.asc()).all()
 
     # Create a list of start and end dates for each week
     week_dates = []
-    while start_date <= last_sunday:
-        week_dates.append((start_date, start_date + timedelta(days=7)))
+    while start_date <= last_saturday:
+        end_date = start_date + timedelta(days=6)
+        week_dates.append((start_date, end_date))
         start_date += timedelta(days=7)
 
     return render_template('items_by_week.html', data=data, week_dates=week_dates)
+
 
