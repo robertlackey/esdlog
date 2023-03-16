@@ -112,3 +112,7 @@ input:checked + .slider:before {
 }
 
 /* End dark mode toggle */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
