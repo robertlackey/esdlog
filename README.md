@@ -1,3 +1,5 @@
+# This is not a production-ready application
+ 
 **Requires Docker and Docker Compose**
 
 Add .env file with the following values
